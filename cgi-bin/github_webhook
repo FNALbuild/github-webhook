@@ -5,7 +5,7 @@ import os , sys , cgi , json , pycurl , hmac, re
 from hashlib import sha1
 import urllib2, urllib
 
-BASE_DIRECTORY = "/data"
+BASE_DIRECTORY = "/web/sites/s/scd-ci.fnal.gov/data"
 
 def check_event(data):
   if not 'HTTP_X_GITHUB_EVENT' in os.environ: return False,''
@@ -63,7 +63,7 @@ def check_signature(data, repo_config):
   if not 'HTTP_X_HUB_SIGNATURE' in os.environ: return False
   sha_name, signature = os.environ['HTTP_X_HUB_SIGNATURE'].split('=')
   if sha_name != 'sha1': return False
-  secret_file = BASE_DIRECTORY+'/secrets/github_hook_secret'
+  secret_file = BASE_DIRECTORY+'/secrets/github_master_secret'
   try:
     from commands import getstatusoutput as run_cmd
     err, out = run_cmd("echo '%s' | openssl enc -d -a -base64 -aes-256-cbc -salt -pass file:%s" % (repo_config.GITHUB_WEBHOOK_TOKEN, secret_file))

@@ -1,0 +1,7 @@
+order deny,allow
+deny from all
+allow from 131.225
+allow from 2620:6a::/48
+allow from 192.30.252.0/22
+allow from 185.199.108.0/22
+allow from 140.82.112.0/20

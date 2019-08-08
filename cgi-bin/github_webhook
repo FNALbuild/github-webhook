@@ -176,8 +176,8 @@ if 'HTTP_X_GITHUB_EVENT' in os.environ:
     sys.exit()
 
 repo_name = payload["repository"]["full_name"]
-sys.path.insert(0,os.path.join(BASE_DIRECTORY,"github-bot"))
-sys.path.insert(0,os.path.join(BASE_DIRECTORY,"github-bot/repos",repo_name.replace("-","_")))
+sys.path.insert(0,os.path.join(BASE_DIRECTORY,"cms-bot"))
+sys.path.insert(0,os.path.join(BASE_DIRECTORY,"cms-bot/repos",repo_name.replace("-","_")))
 import repo_config
 from github_hooks_config import get_repository_hooks, is_valid_gh_repo
 
@@ -249,9 +249,8 @@ headers.update(crumb)
 for x in [(json.dumps({"parameter":xparam}),"dispatch-github-webhook")]:
   jenkins_parameters, job = x
   if not job: continue
-  url = repo_config.JENKINS_SERVER+'/job/'+ job + '/build'
-  url = 'https://buildmaster.fnal.gov/buildmaster/job/%s/build' % job
-  #print(jenkins_parameters,url)
+  url = 'https://buildmaster.fnal.gov/buildmaster/job/GithubIntegration/job/%s/build' % job
+  print(jenkins_parameters,url)
   data = {
               "json": jenkins_parameters,
               "Submit": "Build"

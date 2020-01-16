@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 from hashlib import sha1
-from _py2with3compatibility import Request, urlopen, urlencode, unquote, HTTPSHandler, build_opener, install_opener, HTTPSConnection
+from _py2with3compatibility import Request, urlopen, urlencode, unquote, HTTPSHandler, build_opener, install_opener, HTTPSConnection, HTTPCookieProcessor, CookieJar
 import os, sys, json, hmac, re
 
 print("Content-Type: text/html\n")
@@ -47,7 +47,8 @@ class HTTPSClientAuthHandler(HTTPSHandler):
   def getConnection(self, host, timeout=300):
       return HTTPSConnection(host, **self.connargs)
 
-opener=build_opener(HTTPSClientAuthHandler(PEM_FILE))
+cookie_jar = CookieJar()
+opener=build_opener(HTTPSClientAuthHandler(PEM_FILE), HTTPCookieProcessor(cookie_jar))
 install_opener(opener)
 
 
@@ -187,8 +188,8 @@ if 'HTTP_X_GITHUB_DELIVERY' in os.environ:
 else:
   filename = "github_hook_data"
 
-with open('%s/%s.json' % (BASE_DIRECTORY,filename), 'w') as f:
-    json.dump(payload, f)
+#with open('%s/%s.json' % (BASE_DIRECTORY,filename), 'w') as f:
+#    json.dump(payload, f)
 
 #check valid IP of source
 if check_ip():

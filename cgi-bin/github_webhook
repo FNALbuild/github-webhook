@@ -170,12 +170,6 @@ except Exception as e:
   sys.exit()
 
 
-if 'HTTP_X_GITHUB_EVENT' in os.environ:
-  event = os.environ['HTTP_X_GITHUB_EVENT']
-  if not event in ['issues', 'issue_comment', 'pull_request' , 'push']: 
-    print('Unhandled github event type "%s"\n' % event)
-    sys.exit()
-
 repo_name = payload["repository"]["full_name"]
 sys.path.insert(0,os.path.join(BASE_DIRECTORY,"cms-bot"))
 sys.path.insert(0,os.path.join(BASE_DIRECTORY,"cms-bot/repos",repo_name.replace("-","_")))
@@ -213,6 +207,12 @@ if valid:
 else:
   print('Failed GitHub event validation\n')
   sys.exit()
+
+if 'HTTP_X_GITHUB_EVENT' in os.environ:
+  event = os.environ['HTTP_X_GITHUB_EVENT']
+  if not event in ['issues', 'issue_comment', 'pull_request' , 'push']: 
+    print('Unhandled github event type "%s"\n' % event)
+    sys.exit()
 
 xparam = []
 xparam.append({"name":"REPOSITORY","value":repo_name})

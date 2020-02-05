@@ -1,3 +1,3 @@
-# cmssdt-web 
+# Github-webhook
 
-Prepared fronted code and CGI scripts of CMSSDT. 
+CGI scripts of https://scd-ci.fnal.gov/cgi-bin used to trigger Fermilab Jenkins service.
